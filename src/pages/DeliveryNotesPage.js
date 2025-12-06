@@ -22,7 +22,7 @@ export const DeliveryNotesPage = () => {
   useEffect(() => {
     loadDeliveryNotes();
     loadSupplies();
-  }, [filterStatus]);
+  }, [filterStatus, loadDeliveryNotes, loadSupplies]);
 
   const loadDeliveryNotes = async () => {
     try {

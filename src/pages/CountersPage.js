@@ -5,7 +5,6 @@ import { FiRefreshCw, FiDownload } from 'react-icons/fi';
 export const CountersPage = () => {
   const [machines, setMachines] = useState([]);
   const [counters, setCounters] = useState([]);
-  const [selectedMachine, setSelectedMachine] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ export const CountersPage = () => {
       await counterService.fetchFromAPI(machineId);
       const res = await counterService.getByMachine(machineId);
       setCounters(res.data);
-      setSelectedMachine(machineId);
       alert('Contadores atualizados com sucesso!');
     } catch (error) {
       console.error('Erro ao buscar contadores:', error);
@@ -40,7 +38,6 @@ export const CountersPage = () => {
     try {
       const res = await counterService.getByMachine(machineId);
       setCounters(res.data);
-      setSelectedMachine(machineId);
     } catch (error) {
       console.error('Erro ao carregar contadores:', error);
     }

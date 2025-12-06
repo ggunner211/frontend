@@ -6,7 +6,6 @@ export const OSPage = () => {
   const [os, setOS] = useState([]);
   const [clients, setClients] = useState([]);
   const [machines, setMachines] = useState([]);
-  const [technicians, setTechnicians] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -25,16 +24,14 @@ export const OSPage = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [osRes, clientRes, machineRes, userRes] = await Promise.all([
+      const [osRes, clientRes, machineRes] = await Promise.all([
         osService.getAll(),
         clientService.getAll(),
         machineService.getAll(),
-        authService.getAllUsers(),
       ]);
       setOS(osRes.data);
       setClients(clientRes.data);
       setMachines(machineRes.data);
-      setTechnicians(userRes.data.filter(u => u.role === 'technician'));
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     } finally {

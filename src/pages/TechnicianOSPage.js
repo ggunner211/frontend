@@ -16,7 +16,7 @@ export const TechnicianOSPage = () => {
     if (user?.city) {
       loadPendingOS();
     }
-  }, [user?.city]);
+  }, [user]);
 
   const loadPendingOS = async () => {
     try {

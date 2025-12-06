@@ -5,7 +5,6 @@ import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 export const ContractsPage = () => {
   const [contracts, setContracts] = useState([]);
   const [clients, setClients] = useState([]);
-  const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -26,14 +25,12 @@ export const ContractsPage = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [contRes, clientRes, machRes] = await Promise.all([
+      const [contRes, clientRes] = await Promise.all([
         contractService.getAll(),
         clientService.getAll(),
-        machineService.getAll(),
       ]);
       setContracts(contRes.data);
       setClients(clientRes.data);
-      setMachines(machRes.data);
     } catch (error) {
       console.error('Erro ao carregar:', error);
     } finally {
