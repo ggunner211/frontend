@@ -1,0 +1,64 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "18.0.0"
+  NPM_VERSION = "9.0.0"
+
+# Redirecionar todas as rotas para index.html (React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de segurança
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache para arquivos estáticos
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# API calls (sem cache)
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Environment variables para produção
+[context.production.environment]
+  REACT_APP_API_URL = "https://seu-backend.railway.app"
+  REACT_APP_ENV = "production"
+
+# Environment variables para preview
+[context.deploy-preview.environment]
+  REACT_APP_API_URL = "http://localhost:5000"
+  REACT_APP_ENV = "preview"
+
+# Environment variables para branch develop
+[context.branch-deploy.environment]
+  REACT_APP_API_URL = "http://localhost:5000"
+  REACT_APP_ENV = "staging"
+
+# Redireciona HTTP para HTTPS
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true
