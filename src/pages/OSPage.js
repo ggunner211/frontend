@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { osService, clientService, machineService, authService } from '../services/services';
+import { osService, clientService, machineService } from '../services/services';
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 export const OSPage = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { contractService, clientService, machineService } from '../services/services';
+import { contractService, clientService } from '../services/services';
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 export const ContractsPage = () => {

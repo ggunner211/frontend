@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { deliveryNoteService, supplyService } from '../services/services';
 import { FiPlus, FiEdit2, FiTrash2, FiDownload, FiCheck } from 'react-icons/fi';
 
@@ -19,12 +19,7 @@ export const DeliveryNotesPage = () => {
     observacoes: '',
   });
 
-  useEffect(() => {
-    loadDeliveryNotes();
-    loadSupplies();
-  }, [filterStatus, loadDeliveryNotes, loadSupplies]);
-
-  const loadDeliveryNotes = async () => {
+  const loadDeliveryNotes = useCallback(async () => {
     try {
       setLoading(true);
       const filters = filterStatus ? { status: filterStatus } : {};
@@ -35,16 +30,21 @@ export const DeliveryNotesPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filterStatus]);
 
-  const loadSupplies = async () => {
+  const loadSupplies = useCallback(async () => {
     try {
       const res = await supplyService.getAll();
       setSupplies(res.data);
     } catch (error) {
       console.error('Erro ao carregar peças:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadDeliveryNotes();
+    loadSupplies();
+  }, [loadDeliveryNotes, loadSupplies]);
 
   const handleAddItem = () => {
     setFormData({
