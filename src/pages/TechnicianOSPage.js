@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { osService } from '../services/services';
 import { useAuth } from '../context/AuthContext';
 import SignatureCanvas from 'react-signature-canvas';
@@ -12,13 +12,7 @@ export const TechnicianOSPage = () => {
   const [showSignature, setShowSignature] = useState(false);
   const signatureRef = React.useRef();
 
-  useEffect(() => {
-    if (user?.city) {
-      loadPendingOS();
-    }
-  }, [user?.city]);
-
-  const loadPendingOS = async () => {
+  const loadPendingOS = useCallback(async () => {
     try {
       setLoading(true);
       const res = await osService.getPendingByCity(user.city);
@@ -28,7 +22,13 @@ export const TechnicianOSPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.city]);
+
+  useEffect(() => {
+    if (user?.city) {
+      loadPendingOS();
+    }
+  }, [user?.city, loadPendingOS]);
 
   const handleAcceptOS = async (osId) => {
     try {
