@@ -5,6 +5,7 @@ import { FiRefreshCw, FiDownload } from 'react-icons/fi';
 export const CountersPage = () => {
   const [machines, setMachines] = useState([]);
   const [counters, setCounters] = useState([]);
+  const [selectedMachine, setSelectedMachine] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

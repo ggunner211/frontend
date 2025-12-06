@@ -5,6 +5,7 @@ import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 export const ContractsPage = () => {
   const [contracts, setContracts] = useState([]);
   const [clients, setClients] = useState([]);
+  const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({

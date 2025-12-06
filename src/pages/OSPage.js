@@ -6,6 +6,7 @@ export const OSPage = () => {
   const [os, setOS] = useState([]);
   const [clients, setClients] = useState([]);
   const [machines, setMachines] = useState([]);
+  const [technicians, setTechnicians] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
