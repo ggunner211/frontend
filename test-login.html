@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+</head>
+<body>
+    <h1>Login Test</h1>
+    <input type="email" id="email" value="admin@aura.com" placeholder="Email">
+    <input type="password" id="password" value="admin123" placeholder="Senha">
+    <button onclick="testLogin()">Login</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultEl = document.getElementById('result');
+            
+            try {
+                const response = await fetch('https://backend-production-571fe.up.railway.app/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch(error) {
+                resultEl.textContent = 'Erro: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

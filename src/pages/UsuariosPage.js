@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import '../styles/pages.css';
 
 export const UsuariosPage = () => {
@@ -15,9 +15,6 @@ export const UsuariosPage = () => {
     role: 'support',
   });
 
-  const API_URL = 'http://localhost:5000/api';
-  const token = localStorage.getItem('token');
-
   const roles = [
     { value: 'admin', label: 'Administrador' },
     { value: 'support', label: 'Suporte' },
@@ -30,9 +27,7 @@ export const UsuariosPage = () => {
   const fetchUsuarios = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await api.get('/users');
       setUsuarios(response.data || []);
       setError('');
     } catch (err) {
@@ -54,21 +49,19 @@ export const UsuariosPage = () => {
       try {
         if (editingId) {
           // Atualizar usuário
-          await axios.put(
-            `${API_URL}/users/${editingId}`,
+          await api.put(
+            `/users/${editingId}`,
             {
               name: formData.name,
               email: formData.email,
               role: formData.role,
-            },
-            { headers: { Authorization: `Bearer ${token}` } }
+            }
           );
         } else {
           // Criar novo usuário
-          await axios.post(
-            `${API_URL}/users`,
-            formData,
-            { headers: { Authorization: `Bearer ${token}` } }
+          await api.post(
+            '/users',
+            formData
           );
         }
         await fetchUsuarios();
@@ -96,9 +89,7 @@ export const UsuariosPage = () => {
   const handleDeleteUsuario = async (id) => {
     if (window.confirm('Tem certeza que deseja remover este usuário?')) {
       try {
-        await axios.delete(`${API_URL}/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.delete(`/users/${id}`);
         await fetchUsuarios();
       } catch (err) {
         console.error('Erro ao remover usuário:', err);
